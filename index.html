@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="BMW S 1000 RR 2012 — 193 حصان من الهندسة الألمانية الخالصة." />
+<title>BMW S 1000 RR · 2012 — TELEMETRY</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2308090a'/%3E%3Ctext x='50' y='68' font-size='46' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%23ccff33'%3E RR%3C/text%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <div class="pre-inner">
+    <span class="mono tiny">BMW MOTORRAD // TELEMETRY SYSTEM</span>
+    <div class="pre-model" dir="ltr">S<span>1000</span>RR</div>
+    <div class="pre-bar"><i id="preBar"></i></div>
+    <div class="pre-foot mono"><span id="preNum">000</span><span>%</span><span>CALIBRATING…</span></div>
+  </div>
+</div>
+
+<!-- ============ CUSTOM CURSOR ============ -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+  <span class="cursor-label mono" id="cursorLabel">RPM</span>
+</div>
+
+<!-- ============ HUD TACHOMETER ============ -->
+<aside class="hud" id="hud" aria-hidden="true">
+  <div class="hud-top mono">RPM <span>×1000</span></div>
+  <div class="hud-gauge">
+    <svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="gaugeGrad" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ccff33" />
+          <stop offset="70%" stop-color="#ccff33" />
+          <stop offset="100%" stop-color="#ff462e" />
+        </linearGradient>
+      </defs>
+      <circle class="g-track" cx="60" cy="60" r="46" />
+      <circle class="g-fill" id="gFill" cx="60" cy="60" r="46" />
+      <circle class="g-ticks" cx="60" cy="60" r="56" />
+    </svg>
+    <div class="hud-value" id="hudValue">0.0</div>
+    <div class="hud-gear mono" id="hudGear">N</div>
+  </div>
+  <div class="hud-bottom mono"><span class="led" id="led"></span> TELEMETRY LIVE</div>
+</aside>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav-logo" dir="ltr">
+    <span class="logo-square"></span> BMW<span class="slash">//</span>S1000 RR
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="القائمة">
+    <a href="#machine">الآلة</a>
+    <a href="#specs">المواصفات</a>
+    <a href="#gallery">المعرض</a>
+    <a href="#ignition">الإشعال</a>
+  </nav>
+  <div class="nav-actions">
+    <button class="sound-btn mono" id="soundBtn" aria-label="تشغيل الصوت" aria-pressed="false">
+      <span class="sound-bars"><i></i><i></i><i></i></span>
+      <span id="soundTxt">SOUND OFF</span>
+    </button>
+    <button class="nav-ignite mono" id="navIgnite">IGNITE <span>↗</span></button>
+    <button class="nav-ride mono" id="navRide">RIDE <span>▸</span></button>
+    <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- scroll progress -->
+<div class="progress" id="progress"><i></i></div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-media" id="heroMedia">
+      <img src="https://images.unsplash.com/photo-1635073943212-f34dfbfcc3b0?auto=format&fit=crop&w=2400&q=90" alt="BMW S 1000 RR" />
+    </div>
+    <div class="hero-veil"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+    <canvas class="speed-canvas" id="speedCanvas" aria-hidden="true"></canvas>
+
+    <div class="hero-inner">
+      <div class="hero-meta mono">
+        <span>// MODEL YEAR 2012</span>
+        <span class="hero-speed" id="heroSpeed">000 KM/H</span>
+        <span>BMW MOTORRAD GMBH</span>
+      </div>
+
+      <div class="hero-title-wrap">
+        <h1 class="hero-title glitch" data-text="S1000RR" dir="ltr">
+          <span class="outline">S1000</span><span class="solid">RR</span>
+        </h1>
+        <div class="hero-sub">
+          <span class="hero-line"></span>
+          <p>وحش السرعة.<br /><b>هندسة بلا تنازل.</b></p>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <div class="hero-desc">
+          <span class="mono tiny">// 01 — INTRODUCTION</span>
+          <p>أول سوبر بايك من BMW. 999 سي سي، 193 حصان، وإلكترونيات سبقت زمانها بسنوات.</p>
+        </div>
+        <button class="hero-cta" id="heroIgnite">
+          <span class="cta-pulse"></span>
+          <span class="mono">اضغط لتشغيل المحرك</span>
+          <span class="cta-arrow">↗</span>
+        </button>
+        <div class="hero-scroll mono"><span>SCROLL</span><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack">
+      <span>193 HP <b>◆</b> 999 CC <b>◆</b> 300 KM/H <b>◆</b> 204 KG <b>◆</b> 14'000 RPM <b>◆</b> BMW MOTORRAD <b>◆</b> SUPERBIKE <b>◆</b> 2012 <b>◆</b> </span>
+      <span>193 HP <b>◆</b> 999 CC <b>◆</b> 300 KM/H <b>◆</b> 204 KG <b>◆</b> 14'000 RPM <b>◆</b> BMW MOTORRAD <b>◆</b> SUPERBIKE <b>◆</b> 2012 <b>◆</b> </span>
+    </div>
+  </div>
+
+  <!-- ============ STICKY SCENE — THE MACHINE ============ -->
+  <section class="machine-scene" id="machine">
+    <div class="machine-sticky">
+      <div class="machine-media">
+        <img id="machineImg" src="https://images.unsplash.com/photo-1635073908681-b4dfbd6015e8?auto=format&fit=crop&w=1600&q=85" alt="S 1000 RR" />
+        <div class="machine-veil"></div>
+      </div>
+
+      <div class="machine-ui">
+        <div class="machine-head mono"><span>// 02 — THE MACHINE</span><span id="machineStep">01 / 03</span></div>
+
+        <div class="slides">
+          <article class="slide is-active" data-step="0">
+            <span class="slide-num" dir="ltr">01</span>
+            <div class="slide-copy">
+              <h2>المحرك</h2>
+              <p>أربع أسطوانات، 999 سي سي، و193 حصان عند 13,000 دورة. استجابة فورية من أول لمسة دوّاسة.</p>
+              <div class="slide-stat"><strong data-count="193">0</strong><span class="mono">HP / 13'000 RPM</span></div>
+            </div>
+          </article>
+          <article class="slide" data-step="1">
+            <span class="slide-num" dir="ltr">02</span>
+            <div class="slide-copy">
+              <h2>الهيكل</h2>
+              <p>إطار ألومنيوم، 204 كجم فقط، وتوازن صُمم واختُبر على حلبات السباق.</p>
+              <div class="slide-stat"><strong data-count="204">0</strong><span class="mono">KG / DRY WEIGHT</span></div>
+            </div>
+          </article>
+          <article class="slide" data-step="2">
+            <span class="slide-num" dir="ltr">03</span>
+            <div class="slide-copy">
+              <h2>الإلكترونيات</h2>
+              <p>تحكم في الجر، ABS رياضي، وخرائط قيادة قابلة للضبط. أنت من يكتب الحدود.</p>
+              <div class="slide-stat"><strong data-count="14">0</strong><span class="mono">×1000 RPM / REDLINE</span></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="machine-rail">
+          <i class="rail-fill" id="railFill"></i>
+          <span class="rail-dot active"></span><span class="rail-dot"></span><span class="rail-dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPECS ============ -->
+  <section class="specs" id="specs">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="mono">// 03 — TECHNICAL DATA</span>
+        <h2>الأرقام <em>تتحدث.</em></h2>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec-card wide reveal">
+          <span class="spec-idx mono">01</span>
+          <h3>القدرة</h3>
+          <div class="spec-big" dir="ltr"><span data-count="193">0</span><small>HP</small></div>
+          <div class="spec-bar"><i style="--w:96%"></i></div>
+          <p>عند 13,000 دورة في الدقيقة</p>
+        </div>
+        <div class="spec-card reveal">
+          <span class="spec-idx mono">02</span>
+          <h3>السعة</h3>
+          <div class="spec-big" dir="ltr"><span data-count="999">0</span><small>CC</small></div>
+          <div class="spec-bar"><i style="--w:82%"></i></div>
+          <p>أربع أسطوانات متوازية</p>
+        </div>
+        <div class="spec-card reveal">
+          <span class="spec-idx mono">03</span>
+          <h3>السرعة</h3>
+          <div class="spec-big" dir="ltr"><span data-count="300">0</span><small>KM/H</small></div>
+          <div class="spec-bar"><i style="--w:100%"></i></div>
+          <p>السرعة القصوى المسجّلة</p>
+        </div>
+        <div class="spec-card reveal">
+          <span class="spec-idx mono">04</span>
+          <h3>الوزن</h3>
+          <div class="spec-big" dir="ltr"><span data-count="204">0</span><small>KG</small></div>
+          <div class="spec-bar"><i style="--w:68%"></i></div>
+          <p>وزن جاف · أخف في فئته</p>
+        </div>
+        <div class="spec-card wide reveal">
+          <span class="spec-idx mono">05</span>
+          <h3>الحد الأقصى للدوران</h3>
+          <div class="spec-big" dir="ltr"><span data-count="14000">0</span><small>RPM</small></div>
+          <div class="spec-bar"><i style="--w:92%"></i></div>
+          <p>نطاق قوة يمتد حتى آخر نقطة في العدّاد</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HORIZONTAL GALLERY ============ -->
+  <section class="gallery-scene" id="gallery">
+    <div class="gallery-sticky">
+      <div class="gallery-head mono"><span>// 04 — VISUAL ARCHIVE</span><span>DRAG YOUR SCROLL →</span></div>
+      <div class="gallery-track" id="galleryTrack">
+        <figure class="g-item">
+          <img src="https://images.unsplash.com/photo-1635073953217-aba3cbba7dce?auto=format&fit=crop&w=1200&q=85" alt="المصباح الأمامي" loading="lazy" />
+          <figcaption><span class="mono">01 / HEADLIGHT</span><strong>عين واحدة، رؤية مختلفة.</strong></figcaption>
+        </figure>
+        <figure class="g-item">
+          <img src="https://images.unsplash.com/photo-1635073948138-df07998b9135?auto=format&fit=crop&w=1200&q=85" alt="تفاصيل الواجهة" loading="lazy" />
+          <figcaption><span class="mono">02 / DETAIL</span><strong>كل خط له وظيفة.</strong></figcaption>
+        </figure>
+        <figure class="g-item">
+          <img src="https://images.unsplash.com/photo-1661842443346-f2be6c1c729f?auto=format&fit=crop&w=1200&q=85" alt="الجانب" loading="lazy" />
+          <figcaption><span class="mono">03 / PROFILE</span><strong>الهندسة كفن.</strong></figcaption>
+        </figure>
+        <figure class="g-item">
+          <img src="https://images.unsplash.com/photo-1678481095153-dbfe34d2efc9?auto=format&fit=crop&w=1200&q=85" alt="الجناح الجانبي" loading="lazy" />
+          <figcaption><span class="mono">04 / SIDE FAIRING</span><strong>خفّة بلا تنازل.</strong></figcaption>
+        </figure>
+        <figure class="g-item end">
+          <div class="g-end">
+            <span class="mono">END OF ARCHIVE</span>
+            <strong>نهاية الأرشيف.</strong>
+          </div>
+        </figure>
+      </div>
+      <div class="gallery-progress"><i id="galleryProgress"></i></div>
+    </div>
+  </section>
+
+  <!-- ============ IGNITION ============ -->
+  <section class="ignition" id="ignition">
+    <div class="ignite-bg"></div>
+    <div class="wrap ignite-wrap">
+      <span class="mono">// 05 — IGNITION SEQUENCE</span>
+      <h2>اسمع <em>الوحش.</em></h2>
+      <p>اضغط الزر واسمع صوت المحرك وهو يصحى — مع اهتزاز العدّاد الحيّ.</p>
+
+      <button class="ignite-btn" id="igniteBtn" aria-label="تشغيل المحرك">
+        <span class="ignite-rings"><i></i><i></i><i></i></span>
+        <span class="ignite-core">
+          <span class="mono" id="igniteTxt">START<br />ENGINE</span>
+        </span>
+      </button>
+
+      <div class="ignite-status mono">
+        <span class="led" id="igniteLed"></span>
+        <span id="igniteStatus">STATUS: STANDBY</span>
+      </div>
+
+      <canvas class="spectrum" id="spectrum" aria-hidden="true"></canvas>
+
+      <button class="ride-trigger mono" id="rideTrigger">
+        <span>ENTER RIDE MODE</span><span class="ride-trigger-arrow">▸</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <span class="mono">BMW MOTORRAD // S 1000 RR</span>
+        <span class="mono">MODEL YEAR — 2012</span>
+      </div>
+      <div class="footer-title" dir="ltr">S1000<span>RR</span></div>
+      <div class="footer-bottom">
+        <span class="mono">DESIGNED FOR THE TRACK. BUILT FOR THE ROAD.</span>
+        <span class="mono">© 2026 · TELEMETRY ARCHIVE</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ============ RIDE MODE ============ -->
+<div class="ride" id="ride" aria-hidden="true">
+  <div class="ride-road"><div class="ride-lines"></div><div class="ride-center"></div></div>
+  <div class="ride-veil"></div>
+  <canvas class="ride-canvas" id="rideCanvas" aria-hidden="true"></canvas>
+
+  <div class="ride-ui">
+    <div class="ride-top mono">
+      <span>RIDE MODE // LIVE SIMULATION</span>
+      <span id="rideTimer">00.00</span>
+    </div>
+
+    <div class="ride-speed">
+      <span id="rideSpeed">000</span><small>KM/H</small>
+      <div class="ride-speed-sub mono">GROUND SPEED</div>
+    </div>
+
+    <div class="ride-bottom">
+      <div class="ride-gear" id="rideGear">N</div>
+      <div class="ride-rpm">
+        <div class="ride-rpm-bar"><i id="rideRpmFill"></i></div>
+        <span class="mono">RPM ×1000 <b id="rideRpmNum">0.0</b></span>
+      </div>
+    </div>
+
+    <div class="ride-events" id="rideEvents"></div>
+    <button class="ride-exit mono" id="rideExit">EXIT RIDE <span>✕</span></button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
